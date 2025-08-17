@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
   searchInputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#EAEFEF',
+    backgroundColor: '#cfeeeeff',
     paddingHorizontal: horizontalScale(16),
     height: verticalScale(50),
     borderRadius: horizontalScale(15),

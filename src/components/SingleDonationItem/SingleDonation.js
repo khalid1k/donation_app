@@ -5,7 +5,6 @@ import { Header } from '../Header/Header';
 import { styles } from '../SingleDonationItem/style';
 
 export const SingleDonationItem = props => {
-  console.log('prps uri value is ', props.uri);
   return (
     <View>
       <View>

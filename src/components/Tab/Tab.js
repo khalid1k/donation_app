@@ -11,9 +11,9 @@ export const Tab = props => {
   };
   return (
     <Pressable
-      disabled={props.isDisabled}
+      // disabled={props.isDisabled}
       style={[styles.tab, props.isInactive && styles.inactiveTab, tabWidth]}
-      onPress={() => props.onPress()}
+      onPress={() => props.onPress(props.tabId)}
     >
       <Text
         ref={textRef}

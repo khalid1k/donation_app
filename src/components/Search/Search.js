@@ -23,6 +23,7 @@ export const Search = props => {
         size={scaleFontSize(22)}
       />
       <TextInput
+        placeholder={props.placeholder}
         ref={textInputRef}
         style={styles.searchInput}
         value={search}
