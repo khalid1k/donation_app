@@ -135,28 +135,33 @@ const Home = ({ navigation }) => {
 
         {donationItems.length > 0 && (
           <View style={styles.donationsItemsContainer}>
-            {donationItems.map(value => (
-              <View
-                key={value.donationItemId}
-                style={styles.singleDonationItem}
-              >
-                <SingleDonationItem
-                  price={parseFloat(value.price)}
-                  badgeTitle={
-                    categories.categories.filter(
-                      val => val.categoryId === categories.selectedCategoryId,
-                    )[0].name
-                  }
-                  donationTitle={value.name}
-                  uri={value.image}
-                  donationItemId={value.donationItemId}
-                  onPress={selectedDonationItemId => {
-                    dispatch(updateSelectedDonationId(selectedDonationItemId));
-                    navigation.navigate(Routes.SingleDonationItem);
-                  }}
-                />
-              </View>
-            ))}
+            {donationItems.map(value => {
+              const categoryInformation = categories.categories.find(
+                val => val.categoryId === categories.selectedCategoryId,
+              );
+              return (
+                <View
+                  key={value.donationItemId}
+                  style={styles.singleDonationItem}
+                >
+                  <SingleDonationItem
+                    price={parseFloat(value.price)}
+                    badgeTitle={categoryInformation.name}
+                    donationTitle={value.name}
+                    uri={value.image}
+                    donationItemId={value.donationItemId}
+                    onPress={selectedDonationItemId => {
+                      dispatch(
+                        updateSelectedDonationId(selectedDonationItemId),
+                      );
+                      navigation.navigate(Routes.SingleDonationItem, {
+                        categoryInformation,
+                      });
+                    }}
+                  />
+                </View>
+              );
+            })}
           </View>
         )}
       </ScrollView>
