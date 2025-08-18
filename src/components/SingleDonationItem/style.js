@@ -2,8 +2,9 @@ import { StyleSheet } from 'react-native';
 import { horizontalScale, verticalScale } from '../../assets/styles/scaling';
 export const styles = StyleSheet.create({
   image: {
-    width: horizontalScale(155),
+    width: horizontalScale(150),
     height: verticalScale(170),
+    borderRadius: horizontalScale(20),
   },
   badge: {
     position: 'absolute',

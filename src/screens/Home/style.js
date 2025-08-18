@@ -51,4 +51,15 @@ export const styles = StyleSheet.create({
   categoryItem: {
     marginRight: horizontalScale(10),
   },
+  donationsItemsContainer: {
+    marginTop: verticalScale(20),
+    marginHorizontal: horizontalScale(24),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    flexWrap: 'wrap',
+  },
+  singleDonationItem: {
+    maxWidth: '46%',
+    marginBottom: verticalScale(23),
+  },
 });

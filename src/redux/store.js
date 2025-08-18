@@ -4,10 +4,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { logger } from 'redux-logger';
 import userReduer from './reducers/user';
 import categoriesReducer from './reducers/categories';
+import donationReducer from './reducers/donations';
 
 const rootReducer = combineReducers({
   user: userReduer,
   categories: categoriesReducer,
+  donations: donationReducer,
 });
 
 const configuration = {
