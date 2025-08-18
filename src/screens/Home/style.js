@@ -34,6 +34,7 @@ export const styles = StyleSheet.create({
   },
   imageHighLightedContainer: {
     marginHorizontal: horizontalScale(24),
+    marginTop: verticalScale(10),
   },
   highlightedImage: {
     width: '100%',

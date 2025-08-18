@@ -6,7 +6,7 @@ import {
   Image,
   FlatList,
 } from 'react-native';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { globalStyle } from '../../assets/styles/globalStyle';
 import { styles } from './style';
@@ -25,11 +25,33 @@ import { updateSelectedCategoryId } from '../../redux/reducers/categories';
 const Home = () => {
   const user = useSelector(state => state.user);
   const categories = useSelector(state => state.categories);
-  console.log('user information is ', user);
-  console.log('categories information is ', categories);
+  // console.log('user information is ', user);
+  // console.log('categories information is ', categories);
   const dispatch = useDispatch();
-  dispatch(resetToInitialState());
-  const imageUrl = require('../../assets/images/stickers-cactus.jpg');
+  // dispatch(resetToInitialState());
+
+  const [categoryPage, setCategoryPage] = useState(1);
+  const [categoryList, setCategoryList] = useState([]);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(false);
+  const categoryPageSize = 4;
+
+  const pagination = (items, pageNumber, pageSize) => {
+    const startIndex = (pageNumber - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    if (startIndex >= items.length) {
+      return [];
+    }
+    return items.slice(startIndex, endIndex);
+  };
+
+  useEffect(() => {
+    setIsLoadingCategories(true);
+    setCategoryList(
+      pagination(categories.categories, categoryPage, categoryPageSize),
+    );
+    setCategoryPage(prev => prev + 1);
+    setIsLoadingCategories(false);
+  }, []);
   return (
     <View style={(globalStyle.backgroundWhite, globalStyle.flex)}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -61,9 +83,26 @@ const Home = () => {
         </View>
         <View style={styles.categories}>
           <FlatList
+            onEndReachedThreshold={0.5}
+            onEndReached={() => {
+              if (isLoadingCategories) {
+                return;
+              }
+              setIsLoadingCategories(true);
+              let newDate = pagination(
+                categories.categories,
+                categoryPage,
+                categoryPageSize,
+              );
+              if (newDate.length > 0) {
+                setCategoryList(prev => [...prev, ...newDate]);
+                setCategoryPage(prev => prev + 1);
+              }
+              setIsLoadingCategories(false);
+            }}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
-            data={categories.categories}
+            data={categoryList}
             renderItem={({ item }) => (
               <View style={styles.categoryItem} key={item.categoryId}>
                 <Tab
