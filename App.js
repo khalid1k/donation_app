@@ -1,10 +1,30 @@
 import { Provider } from 'react-redux';
+import { AppState } from 'react-native';
+import { useEffect, useRef } from 'react';
 import RootNavigation from './src/navigation/rootNavigation';
 import { NavigationContainer } from '@react-navigation/native';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './src/redux/store';
+import { refreshAuthToken } from './src/api/user';
 
 function App() {
+  const appState = useRef(AppState.currentState);
+  useEffect(() => {
+    const subscription = AppState.addEventListener(
+      'change',
+      async nextAppState => {
+        if (
+          appState.current.match(/inactive|background/) &&
+          nextAppState === 'active'
+        ) {
+          //we are coming from background to the foreground
+          await refreshAuthToken();
+        }
+        appState.current = nextAppState;
+      },
+    );
+    refreshAuthToken();
+  }, []);
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
