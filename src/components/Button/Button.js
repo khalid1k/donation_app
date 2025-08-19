@@ -5,7 +5,7 @@ import { styles } from './style';
 export const Button = props => {
   return (
     <Pressable
-      disabled={props.isDisabled}
+      disabled={props.isDisabled ? props.isDisabled : false}
       style={[styles.button, props.isDisabled && styles.disabled]}
       onPress={() => props.onPress()}
     >

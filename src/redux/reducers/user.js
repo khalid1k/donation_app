@@ -1,9 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  firstName: 'Muhammad',
-  lastName: 'Khalid',
-  userId: 1,
+  isLoggedIn: false,
   profileImage:
     'https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?semt=ais_hybrid&w=740&q=80',
 };
@@ -12,8 +10,8 @@ export const User = createSlice({
   initialState: initialState,
 
   reducers: {
-    updateFirstName: (state, action) => {
-      state.firstName = action.payload.firstName;
+    logIn: (state, action) => {
+      return { ...state, ...{ isLoggedIn: true }, ...action.payload };
     },
     resetToInitialState: () => {
       return initialState;
@@ -21,5 +19,5 @@ export const User = createSlice({
   },
 });
 
-export const { updateFirstName, resetToInitialState } = User.actions;
+export const { logIn, resetToInitialState } = User.actions;
 export default User.reducer;

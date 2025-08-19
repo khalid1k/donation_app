@@ -11,33 +11,18 @@ import { useSelector, useDispatch } from 'react-redux';
 import { globalStyle } from '../../assets/styles/globalStyle';
 import { styles } from './style';
 import { Header } from '../../components/Header/Header';
-import { Button } from '../../components/Button/Button';
 import { Tab } from '../../components/Tab/Tab';
-import { Badge } from '../../components/Badge/Badge';
 import { Search } from '../../components/Search/Search';
 import { SingleDonationItem } from '../../components/SingleDonationItem/SingleDonation';
-import {
-  updateFirstName,
-  resetToInitialState,
-} from '../../redux/reducers/user';
 import { updateSelectedCategoryId } from '../../redux/reducers/categories';
-import {
-  resetDonations,
-  updateSelectedDonationId,
-} from '../../redux/reducers/donations';
+import { updateSelectedDonationId } from '../../redux/reducers/donations';
 import { Routes } from '../../navigation/routes';
 
 const Home = ({ navigation }) => {
   const user = useSelector(state => state.user);
   const categories = useSelector(state => state.categories);
   const donations = useSelector(state => state.donations);
-  console.log('current donation state is ', donations);
-  // console.log('user information is ', user);
-  // console.log('categories information is ', categories);
   const dispatch = useDispatch();
-  // dispatch(resetToInitialState());
-  // dispatch(resetDonations());
-
   const [donationItems, setDonationItems] = useState([]);
   const [categoryPage, setCategoryPage] = useState(1);
   const [categoryList, setCategoryList] = useState([]);
@@ -76,7 +61,7 @@ const Home = ({ navigation }) => {
           <View>
             <Text style={styles.headerIntroText}>Hello,</Text>
             <View style={styles.userName}>
-              <Header title={user.firstName + ' ' + user.lastName[0] + '.👋'} />
+              <Header title={user.displayName + ' .👋'} />
             </View>
           </View>
           <Image

@@ -6,10 +6,26 @@ import { Input } from '../../components/Input/Input';
 import { Header } from '../../components/Header/Header';
 import { Button } from '../../components/Button/Button';
 import { BackButton } from '../../components/BackButton/BackButton';
+import { createUser } from '../../api/user';
 const Registration = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
+  const [success, setSuccess] = useState('');
+  const [error, setError] = useState('');
+
+  const handleRegistration = async () => {
+    const user = await createUser(fullName, email, password);
+    if (user.error) {
+      setError(user.error);
+    } else {
+      setError('');
+      setSuccess('You have successfully Registered');
+      setTimeout(() => {
+        navigation.goBack();
+      }, 3000);
+    }
+  };
   return (
     <View style={[globalStyle.backgroundWhite, globalStyle.flex]}>
       <View style={styles.backButton}>
@@ -47,8 +63,16 @@ const Registration = ({ navigation }) => {
             onChangeText={value => setPassword(value)}
           />
         </View>
+        {error.length > 0 && <Text style={styles.error}>{error}</Text>}
+        {success.length > 0 && <Text style={styles.success}>{success}</Text>}
         <View style={globalStyle.marginBottom24}>
-          <Button title={'Register'} />
+          <Button
+            title={'Register'}
+            onPress={handleRegistration}
+            isDisabled={
+              fullName.length <= 2 || email.length <= 5 || password.length < 6
+            }
+          />
         </View>
       </ScrollView>
     </View>
