@@ -17,6 +17,10 @@ import { SingleDonationItem } from '../../components/SingleDonationItem/SingleDo
 import { updateSelectedCategoryId } from '../../redux/reducers/categories';
 import { updateSelectedDonationId } from '../../redux/reducers/donations';
 import { Routes } from '../../navigation/routes';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faSignOut } from '@fortawesome/free-solid-svg-icons';
+import { resetToInitialState } from '../../redux/reducers/user';
+import { logOut } from '../../api/user';
 
 const Home = ({ navigation }) => {
   const user = useSelector(state => state.user);
@@ -54,6 +58,11 @@ const Home = ({ navigation }) => {
     setCategoryPage(prev => prev + 1);
     setIsLoadingCategories(false);
   }, []);
+
+  const handleLogout = async () => {
+    dispatch(resetToInitialState());
+    await logOut();
+  };
   return (
     <View style={(globalStyle.backgroundWhite, globalStyle.flex)}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -64,11 +73,16 @@ const Home = ({ navigation }) => {
               <Header title={user.displayName + ' 👋'} />
             </View>
           </View>
-          <Image
-            source={{ uri: user.profileImage }}
-            resizeMode="contain"
-            style={styles.profileImage}
-          />
+          <View style={styles.logout}>
+            <Pressable onPress={handleLogout}>
+              <FontAwesomeIcon icon={faSignOut} color={'#156CF7'} size={25} />
+            </Pressable>
+            <Image
+              source={{ uri: user.profileImage }}
+              resizeMode="contain"
+              style={styles.profileImage}
+            />
+          </View>
         </View>
         <View style={styles.searchBox}>
           <Search placeholder={'Search'} />

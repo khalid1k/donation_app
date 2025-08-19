@@ -28,6 +28,10 @@ export const styles = StyleSheet.create({
     width: horizontalScale(50),
     height: verticalScale(50),
   },
+  logout: {
+    gap: 3,
+    alignItems: 'center',
+  },
   searchBox: {
     marginHorizontal: horizontalScale(24),
     marginTop: verticalScale(20),

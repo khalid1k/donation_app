@@ -4,6 +4,7 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
   getIdToken,
+  signOut,
 } from '@react-native-firebase/auth';
 
 export const createUser = async (fullName, email, password) => {
@@ -55,5 +56,14 @@ export const loginUser = async (email, password) => {
     }
 
     return { status: false, error: 'Something went wrong' };
+  }
+};
+
+export const logOut = async () => {
+  try {
+    const auth = getAuth();
+    await signOut(auth);
+  } catch (error) {
+    console.log('error while logout is ', error);
   }
 };
