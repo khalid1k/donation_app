@@ -4,6 +4,7 @@ import Home from '../screens/Home/home';
 import SingleDonationItem from '../screens/SingleDonationItem/singleDonationItem';
 import Login from '../screens/Login/Login';
 import Registration from '../screens/Registration/Registration';
+import Payment from '../screens/Payment/Payment';
 const Stack = createStackNavigator();
 
 export const NonAuthenticated = () => {
@@ -30,6 +31,7 @@ export const Authenticated = () => {
       screenOptions={{ header: () => null, headerShown: false }}
     >
       <Stack.Screen name={Routes.Home} component={Home} />
+      <Stack.Screen name={Routes.Payment} component={Payment} />
       <Stack.Screen
         name={Routes.SingleDonationItem}
         component={SingleDonationItem}
