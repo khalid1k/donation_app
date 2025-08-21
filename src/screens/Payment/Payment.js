@@ -6,12 +6,12 @@ import { styles } from './style';
 import { globalStyle } from '../../assets/styles/globalStyle';
 import { Header } from '../../components/Header/Header';
 import { Button } from '../../components/Button/Button';
+import config from 'react-native-config';
 import {
   StripeProvider,
   CardForm,
   useConfirmPayment,
 } from '@stripe/stripe-react-native';
-import { publishableKey } from '../../assets/constant';
 const Payment = ({ navigation }) => {
   const [isReady, setIsReady] = useState(false);
   const donationInformation = useSelector(
@@ -42,7 +42,7 @@ const Payment = ({ navigation }) => {
 
   const fetchPaymentIntentClientSecrets = async () => {
     try {
-      const apiUrl = `https://7b1a42c11e8b.ngrok-free.app/create-payment-intent`;
+      const apiUrl = config.API_BASE_URL;
       const response = await axios.post(
         apiUrl,
         {
@@ -63,7 +63,7 @@ const Payment = ({ navigation }) => {
         throw new Error('No client secret received');
       }
     } catch (error) {
-      console.log('API call error:', error.message);
+      console.log('API call error:', error.message, error);
     }
   };
   return (
@@ -74,7 +74,7 @@ const Payment = ({ navigation }) => {
           Your are about to donate {donationInformation.price}
         </Text>
         <View>
-          <StripeProvider publishableKey={publishableKey}>
+          <StripeProvider publishableKey={config.STRIPE_PUBLISHABLE_KEY}>
             <CardForm
               style={styles.stripeCardForm}
               onFormComplete={() => setIsReady(true)}
