@@ -14,11 +14,14 @@ const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async () => {
+    setIsLoading(true);
     const user = await loginUser(email, password);
     if (!user.status) {
       setError(user.error);
+      setIsLoading(false);
     } else {
       setError('');
       dispatch(logIn(user.data));
@@ -57,6 +60,7 @@ const Login = ({ navigation }) => {
             title={'Login'}
             isDisabled={email.length < 5 || password.length < 6}
             onPress={handleLogin}
+            isLoading={isLoading}
           />
         </View>
         <Pressable

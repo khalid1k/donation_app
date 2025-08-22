@@ -14,6 +14,7 @@ import {
 } from '@stripe/stripe-react-native';
 const Payment = ({ navigation }) => {
   const [isReady, setIsReady] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const donationInformation = useSelector(
     state => state.donations.selectedDonationInformation,
   );
@@ -22,20 +23,24 @@ const Payment = ({ navigation }) => {
 
   const handlePayment = async () => {
     try {
+      setIsLoading(true);
       const clientSecret = await fetchPaymentIntentClientSecrets();
       const { error, paymentIntent } = await confirmPayment(clientSecret, {
         paymentMethodType: 'Card',
       });
       if (error) {
+        setIsLoading(false);
         Alert.alert(
           'Error has occured with your payment',
           error.localizedMessage,
         );
       } else if (paymentIntent) {
+        setIsLoading(false);
         Alert.alert('The Payment was successfully confirmed!');
         navigation.goBack();
       }
     } catch (error) {
+      setIsLoading(false);
       console.log('function error:', error.message);
     }
   };
@@ -87,6 +92,7 @@ const Payment = ({ navigation }) => {
           title={'Donate'}
           isDisabled={!isReady || loading}
           onPress={async () => await handlePayment()}
+          isLoading={isLoading}
         />
       </View>
     </View>

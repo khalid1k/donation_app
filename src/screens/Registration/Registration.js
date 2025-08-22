@@ -13,13 +13,17 @@ const Registration = ({ navigation }) => {
   const [fullName, setFullName] = useState('');
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleRegistration = async () => {
+    setIsLoading(true);
     const user = await createUser(fullName, email, password);
     if (user.error) {
+      setIsLoading(false);
       setError(user.error);
     } else {
       setError('');
+      setIsLoading(false);
       setSuccess('You have successfully Registered');
       setTimeout(() => {
         navigation.goBack();
@@ -72,6 +76,7 @@ const Registration = ({ navigation }) => {
             isDisabled={
               fullName.length <= 2 || email.length <= 5 || password.length < 6
             }
+            isLoading={isLoading}
           />
         </View>
       </ScrollView>

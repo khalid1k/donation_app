@@ -1,4 +1,4 @@
-import { Text, Pressable } from 'react-native';
+import { Text, Pressable, ActivityIndicator } from 'react-native';
 import React from 'react';
 import { styles } from './style';
 
@@ -9,7 +9,11 @@ export const Button = props => {
       style={[styles.button, props.isDisabled && styles.disabled]}
       onPress={() => props.onPress()}
     >
-      <Text style={styles.title}>{props.title}</Text>
+      {props.isLoading ? (
+        <ActivityIndicator color="#ffffff" size="small" />
+      ) : (
+        <Text style={styles.title}>{props.title}</Text>
+      )}
     </Pressable>
   );
 };
