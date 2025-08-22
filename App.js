@@ -7,11 +7,12 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './src/redux/store';
 import { refreshAuthToken } from './src/api/user';
 import BootSplash from 'react-native-bootsplash';
+import { navigationRef } from './src/navigation/navigationRef';
 
 function App() {
   const appState = useRef(AppState.currentState);
+
   useEffect(() => {
-    // Set up AppState listener
     const subscription = AppState.addEventListener(
       'change',
       async nextAppState => {
@@ -19,32 +20,26 @@ function App() {
           appState.current.match(/inactive|background/) &&
           nextAppState === 'active'
         ) {
+          console.log('You have come back into the app');
           await refreshAuthToken();
+          //we are coming from background to the foreground
         }
+
         appState.current = nextAppState;
       },
     );
-
-    const init = async () => {
-      await refreshAuthToken();
-    };
-
-    const timeoutId = setTimeout(() => {
-      BootSplash.hide({ fade: true });
-    }, 3000);
-
-    init().finally(() => {
-      clearTimeout(timeoutId);
-      BootSplash.hide({ fade: true });
-    });
-    return () => {
-      subscription.remove();
-    };
+    refreshAuthToken();
+    console.log('Application has rendered');
   }, []);
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <NavigationContainer>
+        <NavigationContainer
+          onReady={() => {
+            BootSplash.hide();
+          }}
+          ref={navigationRef}
+        >
           <RootNavigation />
         </NavigationContainer>
       </PersistGate>
